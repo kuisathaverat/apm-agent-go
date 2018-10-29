@@ -200,7 +200,15 @@ pipeline {
                 sh """#!/bin/bash
                 ./scripts/jenkins/bench.sh
                 """
+                sendBenchmarks(file: 'build/bench.out')
               }
+            }
+          } 
+          post {
+            always {
+              junit(allowEmptyResults: true, 
+                keepLongStdio: true, 
+                testResults: "${BASE_DIR}/build/junit-*.xml")
             }
           }
         }
